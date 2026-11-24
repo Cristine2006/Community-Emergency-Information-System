@@ -1,354 +1,894 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Emergency Information System</title>
-  <style>
-    :root {
-      --navy: #17324d;
-      --blue: #2563a6;
-      --blue-light: #eaf3fc;
-      --teal: #2c8582;
-      --ink: #1e293b;
-      --muted: #64748b;
-      --line: #e2e8f0;
-      --surface: #ffffff;
-      --bg: #f4f7fb;
-      --danger: #b42318;
-      --danger-bg: #fff0ee;
-      --warning: #9a6700;
-      --warning-bg: #fff8e6;
-      --success: #18794e;
-      --success-bg: #eaf8f0;
-      --shadow: 0 10px 30px rgba(23, 50, 77, .07);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusFind | Found Items</title>
+
+<style>
+:root {
+    --navy: #17324d;
+    --blue: #245b85;
+    --teal: #168b8b;
+    --bg: #f3f7fb;
+    --white: #ffffff;
+    --text: #26384a;
+    --muted: #718096;
+    --border: #e1e8ef;
+    --green: #168052;
+    --red: #c04444;
+    --shadow: 0 8px 25px rgba(23, 50, 77, 0.07);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Header */
+.header {
+    background: var(--navy);
+    color: white;
+    padding: 18px 6%;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 45px;
+    height: 45px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--teal);
+    font-size: 23px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.logo p {
+    margin: 4px 0 0;
+    font-size: 11px;
+    color: #c5d5e4;
+    letter-spacing: 1px;
+}
+
+.header-label {
+    color: #c5d5e4;
+    font-size: 12px;
+}
+
+/* Main content */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 35px auto;
+}
+
+.welcome {
+    background: linear-gradient(120deg, #1d4568, #21858a);
+    color: white;
+    border-radius: 18px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    box-shadow: var(--shadow);
+}
+
+.welcome h2 {
+    margin: 0 0 8px;
+    font-size: 27px;
+}
+
+.welcome p {
+    margin: 0;
+    color: #e0eeee;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.welcome-icon {
+    font-size: 55px;
+}
+
+/* Summary cards */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    margin-top: 22px;
+}
+
+.summary-card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.summary-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    background: #e8f3f8;
+}
+
+.summary-card h3 {
+    margin: 0;
+    font-size: 25px;
+    color: var(--navy);
+}
+
+.summary-card p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* Content layout */
+.content-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+    align-items: start;
+    margin-top: 25px;
+}
+
+.panel {
+    background: var(--white);
+    padding: 23px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.panel-heading {
+    margin-bottom: 20px;
+}
+
+.panel-heading h3 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 17px;
+}
+
+.panel-heading p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* Form */
+label {
+    display: block;
+    margin: 15px 0 7px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #425466;
+}
+
+input, select {
+    width: 100%;
+    height: 45px;
+    padding: 10px 12px;
+    border: 1px solid #d4dee7;
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    outline: 3px solid rgba(22, 139, 139, 0.15);
+    border-color: var(--teal);
+}
+
+.add-button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 13px;
+    background: var(--teal);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.add-button:hover {
+    background: #0e7070;
+}
+
+.message {
+    min-height: 18px;
+    margin: 12px 0 0;
+    color: var(--green);
+    font-size: 12px;
+}
+
+/* Item records */
+.records-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.records-heading h3 {
+    margin: 0;
+    color: var(--navy);
+    font-size: 17px;
+}
+
+.item-count {
+    background: #e6f4f4;
+    color: #117676;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.item-list {
+    display: grid;
+    gap: 13px;
+}
+
+.item-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 17px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    transition: 0.2s;
+}
+
+.item-card:hover {
+    border-color: #a9cccc;
+    box-shadow: 0 5px 15px rgba(23, 50, 77, 0.05);
+}
+
+.item-details {
+    min-width: 0;
+}
+
+.item-details h4 {
+    margin: 0 0 9px;
+    font-size: 15px;
+    color: var(--navy);
+    overflow-wrap: anywhere;
+}
+
+.item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.category-tag,
+.status-tag {
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.category-tag {
+    background: #edf2f7;
+    color: #526477;
+}
+
+.status-available {
+    background: #fff3d7;
+    color: #946400;
+}
+
+.status-claimed {
+    background: #e3f5eb;
+    color: #16734d;
+}
+
+/* Item buttons */
+.actions {
+    display: flex;
+    gap: 7px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 11px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.claim-button {
+    background: #e5f3f3;
+    color: #117676;
+}
+
+.claim-button:hover {
+    background: #cfe9e9;
+}
+
+.delete-button {
+    background: #fff0ee;
+    color: var(--red);
+}
+
+.delete-button:hover {
+    background: #ffdedb;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 45px 15px;
+    text-align: center;
+    border: 1px dashed #cbd7e1;
+    border-radius: 12px;
+    color: var(--muted);
+}
+
+.empty-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.empty-state h4 {
+    color: var(--navy);
+    margin: 0 0 7px;
+}
+
+.empty-state p {
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 25px 10px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 850px) {
+    .content-grid {
+        grid-template-columns: 1fr;
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: Inter, "Segoe UI", Arial, sans-serif; background: var(--bg); color: var(--ink); }
-    button, input, textarea, select { font: inherit; }
-    .topbar { background: var(--navy); color: white; padding: 17px 5.5%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: rgba(255,255,255,.13); font-size: 22px; }
-    .brand h1 { font-size: 17px; margin: 0; letter-spacing: .2px; }
-    .brand p { margin: 3px 0 0; font-size: 11px; color: #cbd8e6; letter-spacing: 1.3px; text-transform: uppercase; }
-    .top-note { font-size: 12px; color: #d7e4f1; text-align: right; }
-    .container { width: min(1180px, 91%); margin: 28px auto 48px; }
-    .hero { background: linear-gradient(115deg, #1b456b, #267c83); color: white; border-radius: 20px; padding: 28px 30px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-    .eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .8; font-weight: 700; }
-    .hero h2 { font-size: clamp(24px, 4vw, 34px); margin: 8px 0; }
-    .hero p { color: #e1edf4; margin: 0; max-width: 640px; line-height: 1.6; font-size: 14px; }
-    .hero-mark { font-size: 58px; opacity: .95; padding: 0 18px; }
-    .notice { margin: 18px 0 22px; border: 1px solid #f0d28a; background: var(--warning-bg); color: #704d00; border-radius: 12px; padding: 12px 15px; font-size: 12px; line-height: 1.55; }
-    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin: 28px 0 13px; }
-    .section-head h3 { margin: 0; font-size: 18px; color: var(--navy); }
-    .section-head p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .stat, .panel, .info-card { background: var(--surface); border: 1px solid var(--line); border-radius: 15px; box-shadow: var(--shadow); }
-    .stat { padding: 17px 18px; display: flex; align-items: center; gap: 13px; }
-    .stat-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: var(--blue-light); }
-    .stat strong { display: block; font-size: 23px; color: var(--navy); }
-    .stat span:last-child { font-size: 12px; color: var(--muted); }
-    .grid-two { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
-    .panel { padding: 19px; }
-    .panel h3 { margin: 0 0 4px; color: var(--navy); font-size: 16px; }
-    .sub { color: var(--muted); font-size: 12px; margin: 0 0 16px; }
-    .announcement { border: 1px solid var(--line); border-left: 4px solid var(--teal); padding: 13px 14px; border-radius: 10px; margin-top: 10px; }
-    .announcement.high { border-left-color: var(--danger); }
-    .announcement.medium { border-left-color: #d69e22; }
-    .announcement-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-    .announcement h4 { margin: 0; font-size: 14px; }
-    .announcement p { margin: 8px 0; font-size: 12px; line-height: 1.55; color: #475569; white-space: pre-wrap; }
-    .meta { font-size: 10px; color: var(--muted); }
-    .pill { border-radius: 30px; padding: 4px 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
-    .pill.high { color: var(--danger); background: var(--danger-bg); }
-    .pill.medium { color: var(--warning); background: var(--warning-bg); }
-    .pill.info { color: var(--success); background: var(--success-bg); }
-    .actions { display: flex; gap: 7px; margin-top: 10px; }
-    .btn { border: 0; border-radius: 8px; padding: 9px 13px; font-size: 12px; font-weight: 700; cursor: pointer; transition: .15s; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary { background: var(--blue); color: white; }
-    .btn-light { background: var(--blue-light); color: var(--blue); }
-    .btn-danger { background: var(--danger-bg); color: var(--danger); }
-    .btn-small { padding: 6px 9px; font-size: 11px; }
-    .contact-list, .center-list { display: grid; gap: 10px; }
-    .contact, .center { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); }
-    .contact:last-child, .center:last-child { border-bottom: 0; }
-    .contact strong, .center strong { display: block; font-size: 12px; }
-    .contact span, .center span { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
-    .phone { color: var(--blue); font-weight: 700; font-size: 12px; text-decoration: none; white-space: nowrap; }
-    .cards-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .info-card { padding: 17px; }
-    .info-card .emoji { font-size: 23px; }
-    .info-card h4 { color: var(--navy); margin: 10px 0 6px; font-size: 14px; }
-    .info-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
-    .form-row { display: grid; grid-template-columns: 1fr 160px; gap: 10px; }
-    label { display: block; color: #475569; font-size: 11px; font-weight: 700; margin: 12px 0 6px; }
-    input, textarea, select { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 11px; background: white; color: var(--ink); outline: none; font-size: 12px; }
-    input:focus, textarea:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,166,.1); }
-    textarea { min-height: 78px; resize: vertical; }
-    .form-actions { display: flex; gap: 8px; margin-top: 12px; }
-    .empty { text-align: center; color: var(--muted); padding: 25px 10px; font-size: 12px; border: 1px dashed #cbd5e1; border-radius: 10px; margin-top: 10px; }
-    .footer { text-align: center; color: #8492a6; font-size: 11px; padding: 25px 10px 5px; }
-    .toast { position: fixed; right: 20px; bottom: 20px; background: #17324d; color: white; padding: 12px 16px; border-radius: 10px; font-size: 12px; box-shadow: var(--shadow); display: none; z-index: 5; }
-    @media (max-width: 780px) {
-      .grid-two { grid-template-columns: 1fr; }
-      .cards-three { grid-template-columns: 1fr; }
-      .hero-mark { display: none; }
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding: 15px 4%;
     }
-    @media (max-width: 560px) {
-      .topbar { padding: 14px 4.5%; }
-      .top-note { display: none; }
-      .container { width: 92%; margin-top: 18px; }
-      .hero { padding: 22px 19px; }
-      .stats { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; gap: 0; }
-      .section-head { align-items: start; flex-direction: column; }
+
+    .header-label {
+        display: none;
     }
-  </style>
+
+    .container {
+        width: 92%;
+        margin: 22px auto;
+    }
+
+    .welcome {
+        padding: 23px;
+    }
+
+    .welcome h2 {
+        font-size: 22px;
+    }
+
+    .welcome-icon {
+        font-size: 38px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    .item-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions {
+        width: 100%;
+    }
+}
+</style>
 </head>
+
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-icon">🛟</div>
-      <div>
-        <h1>Community Emergency Information System</h1>
-        <p>Prepared • Informed • Resilient</p>
-      </div>
-    </div>
-    <div class="top-note">COMMUNITY INFORMATION PORTAL<br><span id="today"></span></div>
-  </header>
 
-  <main class="container">
-    <section class="hero">
-      <div>
-        <div class="eyebrow">Community safety dashboard</div>
-        <h2>Stay informed. Stay prepared.</h2>
-        <p>Find community safety updates, emergency contact information, evacuation center details, and simple disaster preparedness reminders in one place.</p>
-      </div>
-      <div class="hero-mark">🚨</div>
-    </section>
+<!-- Header -->
+<header class="header">
+    <div class="header-content">
 
-    <div class="notice"><strong>Demo and safety notice:</strong> This project uses sample information for school demonstration only. It is not connected to emergency services. Verify real alerts, phone numbers, and evacuation locations with your barangay or official government sources. In an actual emergency, contact your local emergency services.</div>
+        <div class="logo">
+            <div class="logo-icon">⌕</div>
 
-    <section class="stats" aria-label="Dashboard summary">
-      <div class="stat"><div class="stat-icon">📢</div><div><strong id="announcementCount">0</strong><span>Community updates</span></div></div>
-      <div class="stat"><div class="stat-icon">☎️</div><div><strong>3</strong><span>Sample emergency contacts</span></div></div>
-      <div class="stat"><div class="stat-icon">🏫</div><div><strong>2</strong><span>Sample evacuation centers</span></div></div>
-    </section>
-
-    <section class="section-head">
-      <div><h3>Emergency Announcements</h3><p>Sample notices for the community dashboard</p></div>
-    </section>
-
-    <div class="grid-two">
-      <section class="panel">
-        <h3>Latest community updates</h3>
-        <p class="sub">Announcements are stored in this browser using localStorage.</p>
-        <div id="announcementList"></div>
-      </section>
-
-      <section class="panel" id="announcementFormPanel">
-        <h3 id="formTitle">Post an announcement</h3>
-        <p class="sub">For demonstration, use fictional and verified-safe sample content only.</p>
-        <form id="announcementForm">
-          <label for="title">Announcement title</label>
-          <input id="title" maxlength="80" required placeholder="Example: Community preparedness reminder">
-          <div class="form-row">
             <div>
-              <label for="level">Priority level</label>
-              <select id="level">
-                <option value="info">Information</option>
-                <option value="medium">Advisory</option>
-                <option value="high">Urgent demo notice</option>
-              </select>
+                <h1>CampusFind</h1>
+                <p>FOUND ITEMS MANAGEMENT</p>
             </div>
+        </div>
+
+        <div class="header-label">
+            CAMPUS LOST & FOUND PORTAL
+        </div>
+
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- Welcome section -->
+    <section class="welcome">
+        <div>
+            <h2>Found Items Dashboard</h2>
+            <p>
+                Manage found belongings around the campus.
+                Add new records and update their claim status.
+            </p>
+        </div>
+
+        <div class="welcome-icon">🎒</div>
+    </section>
+
+    <!-- Summary cards -->
+    <section class="summary">
+
+        <div class="summary-card">
+            <div class="summary-icon">📦</div>
             <div>
-              <label for="postedBy">Posted by</label>
-              <input id="postedBy" maxlength="35" required placeholder="Sample staff">
+                <h3 id="totalCount">0</h3>
+                <p>Total Found Items</p>
             </div>
-          </div>
-          <label for="message">Announcement details</label>
-          <textarea id="message" maxlength="500" required placeholder="Write a short community information update..."></textarea>
-          <div class="form-actions">
-            <button class="btn btn-primary" type="submit" id="saveButton">Publish update</button>
-            <button class="btn btn-light" type="button" id="cancelEdit" hidden>Cancel edit</button>
-          </div>
-        </form>
-      </section>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">🟡</div>
+            <div>
+                <h3 id="availableCount">0</h3>
+                <p>Available Items</p>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">✅</div>
+            <div>
+                <h3 id="claimedCount">0</h3>
+                <p>Claimed Items</p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Form and item records -->
+    <div class="content-grid">
+
+        <!-- Add item form -->
+        <section class="panel">
+
+            <div class="panel-heading">
+                <h3>+ Add Found Item</h3>
+                <p>Enter the information of the found item.</p>
+            </div>
+
+            <form id="itemForm">
+
+                <label for="itemName">Item Name</label>
+                <input
+                    type="text"
+                    id="itemName"
+                    placeholder="e.g. Black Wallet"
+                    maxlength="80"
+                    required
+                >
+
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="">Select category</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Books & Notes">Books & Notes</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="ID & Cards">ID & Cards</option>
+                    <option value="Personal Items">Personal Items</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="dateFound">Date Found</label>
+                <input
+                    type="date"
+                    id="dateFound"
+                    required
+                >
+
+                <button type="submit" class="add-button">
+                    + Add Found Item
+                </button>
+
+                <p class="message" id="message" role="status" aria-live="polite"></p>
+
+            </form>
+
+        </section>
+
+        <!-- Found items list -->
+        <section class="panel">
+
+            <div class="records-heading">
+                <h3>Found Item Records</h3>
+
+                <span class="item-count" id="itemCount">
+                    0 Items
+                </span>
+            </div>
+
+            <div class="item-list" id="itemList"></div>
+
+        </section>
+
     </div>
 
-    <section class="section-head">
-      <div><h3>Emergency Contacts</h3><p>Fictional placeholders — replace only with verified official contacts.</p></div>
-    </section>
-    <section class="panel contact-list">
-      <div class="contact"><div><strong>Community Emergency Desk (Sample)</strong><span>Local coordination point</span></div><span class="phone">000-000-0000</span></div>
-      <div class="contact"><div><strong>Health Assistance Desk (Sample)</strong><span>Health-related inquiries</span></div><span class="phone">000-000-0001</span></div>
-      <div class="contact"><div><strong>Fire and Rescue Desk (Sample)</strong><span>Fire safety information</span></div><span class="phone">000-000-0002</span></div>
-    </section>
+</main>
 
-    <section class="section-head">
-      <div><h3>Evacuation Center Information</h3><p>Sample locations only — confirm safe and open sites with local authorities.</p></div>
-    </section>
-    <section class="panel center-list">
-      <div class="center"><div><strong>Community Covered Court (Sample)</strong><span>Sample capacity: 100 people · Check-in at information desk</span></div><span class="pill info">Sample site</span></div>
-      <div class="center"><div><strong>Central School Gymnasium (Sample)</strong><span>Sample capacity: 150 people · Follow official staff instructions</span></div><span class="pill info">Sample site</span></div>
-    </section>
+<footer class="footer">
+    CampusFind © 2026 | Found Items Management System
+</footer>
 
-    <section class="section-head">
-      <div><h3>Preparedness Tips</h3><p>Basic reminders to help households prepare ahead of time.</p></div>
-    </section>
-    <section class="cards-three">
-      <article class="info-card"><div class="emoji">🎒</div><h4>Prepare a go-bag</h4><p>Keep drinking water, ready-to-eat food, a flashlight, batteries, basic first-aid supplies, and copies of important documents.</p></article>
-      <article class="info-card"><div class="emoji">📻</div><h4>Follow official updates</h4><p>Listen to trusted local authorities and official weather or disaster agencies. Avoid sharing unverified reports.</p></article>
-      <article class="info-card"><div class="emoji">👨‍👩‍👧</div><h4>Make a family plan</h4><p>Agree on a meeting point, emergency contacts, and how household members will communicate if separated.</p></article>
-    </section>
+<script>
 
-    <footer class="footer">Community Emergency Information System · Student demonstration project · Sample data only</footer>
-  </main>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+// Local storage key
+const STORAGE_KEY = "campusFindFoundItems";
 
-  <script>
-    const STORAGE_KEY = "communityEmergencyAnnouncements";
-    const defaultAnnouncements = [
-      {
-        id: 1,
-        title: "Community preparedness reminder",
-        level: "info",
-        postedBy: "Sample Community Staff",
-        message: "Review your household emergency plan and keep essential supplies in an accessible place. This is a fictional sample announcement.",
-        date: new Date().toISOString()
-      },
-      {
-        id: 2,
-        title: "Weather awareness advisory",
-        level: "medium",
-        postedBy: "Sample Information Desk",
-        message: "Please monitor official weather bulletins and follow guidance from authorized local agencies. This is a fictional sample advisory.",
-        date: new Date(Date.now() - 86400000).toISOString()
-      }
-    ];
+// Get HTML elements
+const form = document.getElementById("itemForm");
+const itemList = document.getElementById("itemList");
+const message = document.getElementById("message");
 
-    let announcements = loadAnnouncements();
-    let editingId = null;
+// Load saved items from localStorage
+function loadItems() {
+    try {
+        const savedItems = JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+        );
 
-    function loadAnnouncements() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        return saved ? JSON.parse(saved) : defaultAnnouncements;
-      } catch (error) {
-        return defaultAnnouncements;
-      }
+        return Array.isArray(savedItems) ? savedItems : [];
+
+    } catch (error) {
+        return [];
+    }
+}
+
+// Current item records
+let items = loadItems();
+
+// Save item records
+function saveItems() {
+    try {
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(items)
+        );
+
+        return true;
+
+    } catch (error) {
+        message.textContent =
+            "Unable to save. Check your browser storage.";
+
+        return false;
+    }
+}
+
+// Create text safely
+function createElement(tag, className, text) {
+    const element = document.createElement(tag);
+
+    if (className) {
+        element.className = className;
     }
 
-    function saveAnnouncements() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(announcements));
-    }
+    element.textContent = text;
 
-    function escapeHTML(value) {
-      return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-      })[char]);
-    }
+    return element;
+}
 
-    function formatDate(value) {
-      const date = new Date(value);
-      return Number.isNaN(date.getTime()) ? "Date unavailable" :
-        date.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
-    }
+// Display item records and update dashboard counts
+function displayItems() {
 
-    function renderAnnouncements() {
-      const list = document.getElementById("announcementList");
-      document.getElementById("announcementCount").textContent = announcements.length;
-      if (!announcements.length) {
-        list.innerHTML = '<div class="empty">No announcements yet. Add a community update using the form.</div>';
+    itemList.replaceChildren();
+
+    const total = items.length;
+
+    const available = items.filter(
+        item => !item.claimed
+    ).length;
+
+    const claimed = items.filter(
+        item => item.claimed
+    ).length;
+
+    document.getElementById("totalCount").textContent = total;
+    document.getElementById("availableCount").textContent = available;
+    document.getElementById("claimedCount").textContent = claimed;
+
+    document.getElementById("itemCount").textContent =
+        `${total} ${total === 1 ? "Item" : "Items"}`;
+
+    // Show empty state when there are no records
+    if (total === 0) {
+
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+
+        empty.appendChild(
+            createElement("div", "empty-icon", "📭")
+        );
+
+        empty.appendChild(
+            createElement("h4", "", "No Found Items Yet")
+        );
+
+        empty.appendChild(
+            createElement(
+                "p",
+                "",
+                "There are currently no item records. Add a found item using the form."
+            )
+        );
+
+        itemList.appendChild(empty);
+
         return;
-      }
-      const sorted = [...announcements].sort((a, b) => new Date(b.date) - new Date(a.date));
-      list.innerHTML = sorted.map(item => `
-        <article class="announcement ${escapeHTML(item.level)}">
-          <div class="announcement-top">
-            <h4>${escapeHTML(item.title)}</h4>
-            <span class="pill ${escapeHTML(item.level)}">${item.level === "high" ? "Urgent demo" : item.level === "medium" ? "Advisory" : "Information"}</span>
-          </div>
-          <p>${escapeHTML(item.message)}</p>
-          <div class="meta">Posted by ${escapeHTML(item.postedBy)} · ${formatDate(item.date)}</div>
-          <div class="actions">
-            <button class="btn btn-light btn-small" type="button" onclick="editAnnouncement(${Number(item.id)})">Edit</button>
-            <button class="btn btn-danger btn-small" type="button" onclick="deleteAnnouncement(${Number(item.id)})">Delete</button>
-          </div>
-        </article>
-      `).join("");
     }
 
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.style.display = "block";
-      window.clearTimeout(showToast.timer);
-      showToast.timer = window.setTimeout(() => toast.style.display = "none", 2600);
-    }
+    // Display each item
+    items.forEach(item => {
 
-    document.getElementById("announcementForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-      const title = document.getElementById("title").value.trim();
-      const level = document.getElementById("level").value;
-      const postedBy = document.getElementById("postedBy").value.trim();
-      const message = document.getElementById("message").value.trim();
+        const card = document.createElement("article");
+        card.className = "item-card";
 
-      if (!title || !postedBy || !message) {
-        showToast("Please complete all required fields.");
-        return;
-      }
+        const details = document.createElement("div");
+        details.className = "item-details";
 
-      if (editingId !== null) {
-        announcements = announcements.map(item => item.id === editingId
-          ? { ...item, title, level, postedBy, message, date: new Date().toISOString() }
-          : item);
-        showToast("Announcement updated.");
-      } else {
-        announcements.push({ id: Date.now(), title, level, postedBy, message, date: new Date().toISOString() });
-        showToast("Announcement published.");
-      }
-      saveAnnouncements();
-      renderAnnouncements();
-      resetForm();
+        details.appendChild(
+            createElement("h4", "", item.name)
+        );
+
+        const meta = document.createElement("div");
+        meta.className = "item-meta";
+
+        meta.appendChild(
+            createElement("span", "category-tag", item.category)
+        );
+
+        meta.appendChild(
+            createElement("span", "", "Date Found: " + item.dateFound)
+        );
+
+        meta.appendChild(
+            createElement(
+                "span",
+                item.claimed
+                    ? "status-tag status-claimed"
+                    : "status-tag status-available",
+                item.claimed ? "Claimed" : "Available"
+            )
+        );
+
+        details.appendChild(meta);
+
+        // Claim status button
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const claimButton = createElement(
+            "button",
+            "action-button claim-button",
+            item.claimed ? "Mark Available" : "Mark Claimed"
+        );
+
+        claimButton.type = "button";
+        claimButton.dataset.action = "toggle";
+        claimButton.dataset.id = item.id;
+
+        claimButton.setAttribute(
+            "aria-label",
+            `${item.claimed ? "Mark available" : "Mark claimed"}: ${item.name}`
+        );
+
+        // Delete button
+        const deleteButton = createElement(
+            "button",
+            "action-button delete-button",
+            "Delete"
+        );
+
+        deleteButton.type = "button";
+        deleteButton.dataset.action = "delete";
+        deleteButton.dataset.id = item.id;
+
+        deleteButton.setAttribute(
+            "aria-label",
+            `Delete ${item.name}`
+        );
+
+        actions.append(claimButton, deleteButton);
+
+        card.append(details, actions);
+
+        itemList.appendChild(card);
+
     });
+}
 
-    function editAnnouncement(id) {
-      const item = announcements.find(entry => entry.id === id);
-      if (!item) return;
-      editingId = id;
-      document.getElementById("title").value = item.title;
-      document.getElementById("level").value = item.level;
-      document.getElementById("postedBy").value = item.postedBy;
-      document.getElementById("message").value = item.message;
-      document.getElementById("formTitle").textContent = "Edit announcement";
-      document.getElementById("saveButton").textContent = "Save changes";
-      document.getElementById("cancelEdit").hidden = false;
-      document.getElementById("announcementFormPanel").scrollIntoView({ behavior: "smooth", block: "center" });
+// Add a new found item
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("itemName").value.trim();
+    const category = document.getElementById("category").value;
+    const dateFound = document.getElementById("dateFound").value;
+
+    // Validate required fields
+    if (!name || !category || !dateFound) {
+
+        message.textContent = "Please complete all fields.";
+
+        return;
     }
 
-    function deleteAnnouncement(id) {
-      if (!confirm("Delete this sample announcement?")) return;
-      announcements = announcements.filter(item => item.id !== id);
-      saveAnnouncements();
-      renderAnnouncements();
-      if (editingId === id) resetForm();
-      showToast("Announcement deleted.");
+    const newItem = {
+        id: Date.now().toString() +
+            Math.random().toString(16).slice(2),
+
+        name: name,
+        category: category,
+        dateFound: dateFound,
+        claimed: false
+    };
+
+    items.unshift(newItem);
+
+    if (saveItems()) {
+
+        form.reset();
+
+        message.textContent =
+            "Found item added successfully!";
+
+        displayItems();
+
+    } else {
+
+        items.shift();
     }
 
-    function resetForm() {
-      editingId = null;
-      document.getElementById("announcementForm").reset();
-      document.getElementById("formTitle").textContent = "Post an announcement";
-      document.getElementById("saveButton").textContent = "Publish update";
-      document.getElementById("cancelEdit").hidden = true;
+});
+
+// Handle claim status and delete actions
+itemList.addEventListener("click", function(event) {
+
+    const button = event.target.closest("button[data-action]");
+
+    if (!button) return;
+
+    const item = items.find(
+        record => record.id === button.dataset.id
+    );
+
+    if (!item) return;
+
+    // Mark item as claimed or available
+    if (button.dataset.action === "toggle") {
+
+        item.claimed = !item.claimed;
+
+        if (saveItems()) {
+
+            message.textContent = item.claimed
+                ? "Item marked as claimed."
+                : "Item marked as available.";
+
+            displayItems();
+
+        } else {
+
+            item.claimed = !item.claimed;
+        }
     }
 
-    document.getElementById("cancelEdit").addEventListener("click", resetForm);
-    document.getElementById("today").textContent = new Date().toLocaleDateString([], { dateStyle: "full" });
-    saveAnnouncements();
-    renderAnnouncements();
-  </script>
+    // Delete item after confirmation
+    if (button.dataset.action === "delete") {
+
+        const confirmed = confirm(
+            `Are you sure you want to delete "${item.name}"?`
+        );
+
+        if (!confirmed) return;
+
+        const previousItems = items;
+
+        items = items.filter(
+            record => record.id !== item.id
+        );
+
+        if (saveItems()) {
+
+            message.textContent =
+                "Item deleted successfully.";
+
+            displayItems();
+
+        } else {
+
+            items = previousItems;
+        }
+    }
+
+});
+
+// Display saved records when page opens
+displayItems();
+
+</script>
+
 </body>
 </html>
