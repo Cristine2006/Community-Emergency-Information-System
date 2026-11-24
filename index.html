@@ -1,893 +1,963 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusFind | Found Items</title>
+<title>Community Emergency Information System</title>
 
 <style>
-:root {
-    --navy: #17324d;
-    --blue: #245b85;
-    --teal: #168b8b;
-    --bg: #f3f7fb;
-    --white: #ffffff;
-    --text: #26384a;
-    --muted: #718096;
-    --border: #e1e8ef;
-    --green: #168052;
-    --red: #c04444;
-    --shadow: 0 8px 25px rgba(23, 50, 77, 0.07);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-* {
-    box-sizing: border-box;
+:root {
+    --navy: #142b45;
+    --blue: #1e4267;
+    --red: #e54848;
+    --light: #f3f6fa;
+    --white: #fff;
+    --gray: #718096;
+    --green: #21996b;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    background: var(--light);
+    color: #25364a;
 }
 
-/* Header */
-.header {
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
     background: var(--navy);
     color: white;
-    padding: 18px 6%;
-}
-
-.header-content {
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 17px;
+    z-index: 10;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-bottom: 35px;
+    padding: 0 8px;
 }
 
 .logo-icon {
-    width: 45px;
-    height: 45px;
+    width: 43px;
+    height: 43px;
+    background: var(--red);
+    border-radius: 12px;
     display: grid;
     place-items: center;
-    border-radius: 12px;
-    background: var(--teal);
     font-size: 23px;
 }
 
-.logo h1 {
-    margin: 0;
-    font-size: 21px;
+.logo h2 {
+    font-size: 15px;
+    line-height: 1.4;
 }
 
-.logo p {
-    margin: 4px 0 0;
+.logo span {
+    color: #a8c1da;
     font-size: 11px;
-    color: #c5d5e4;
-    letter-spacing: 1px;
+    font-weight: normal;
 }
 
-.header-label {
-    color: #c5d5e4;
+.nav-title {
+    color: #91a8c1;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin: 25px 10px 12px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 14px;
+    margin-bottom: 6px;
+    border-radius: 9px;
+    color: #c6d4e3;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 14px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #294b6c;
+    color: white;
+}
+
+.nav-link.active {
+    border-left: 4px solid var(--red);
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 20px;
+    right: 20px;
+    border-top: 1px solid #36516d;
+    padding-top: 18px;
     font-size: 12px;
+    color: #a8c1da;
 }
 
 /* Main content */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 35px auto;
+.main {
+    margin-left: 250px;
+    padding: 30px 35px;
 }
 
-.welcome {
-    background: linear-gradient(120deg, #1d4568, #21858a);
-    color: white;
-    border-radius: 18px;
-    padding: 30px;
+.topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    box-shadow: var(--shadow);
-}
-
-.welcome h2 {
-    margin: 0 0 8px;
-    font-size: 27px;
-}
-
-.welcome p {
-    margin: 0;
-    color: #e0eeee;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.welcome-icon {
-    font-size: 55px;
-}
-
-/* Summary cards */
-.summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 17px;
-    margin-top: 22px;
-}
-
-.summary-card {
-    background: var(--white);
-    padding: 20px;
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
+    margin-bottom: 30px;
     gap: 15px;
 }
 
-.summary-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    font-size: 23px;
-    background: #e8f3f8;
-}
-
-.summary-card h3 {
-    margin: 0;
+.topbar h1 {
     font-size: 25px;
     color: var(--navy);
 }
 
-.summary-card p {
-    margin: 4px 0 0;
-    color: var(--muted);
-    font-size: 12px;
-}
-
-/* Content layout */
-.content-grid {
-    display: grid;
-    grid-template-columns: 350px 1fr;
-    gap: 20px;
-    align-items: start;
-    margin-top: 25px;
-}
-
-.panel {
-    background: var(--white);
-    padding: 23px;
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    box-shadow: var(--shadow);
-}
-
-.panel-heading {
-    margin-bottom: 20px;
-}
-
-.panel-heading h3 {
-    margin: 0;
-    color: var(--navy);
-    font-size: 17px;
-}
-
-.panel-heading p {
-    margin: 6px 0 0;
-    color: var(--muted);
-    font-size: 12px;
-}
-
-/* Form */
-label {
-    display: block;
-    margin: 15px 0 7px;
+.topbar p {
+    color: var(--gray);
     font-size: 13px;
-    font-weight: bold;
-    color: #425466;
+    margin-top: 5px;
 }
 
-input, select {
-    width: 100%;
-    height: 45px;
-    padding: 10px 12px;
-    border: 1px solid #d4dee7;
-    border-radius: 8px;
-    background: white;
-    color: var(--text);
-    font-size: 14px;
+.status {
+    background: #e3f5ed;
+    color: var(--green);
+    padding: 9px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
-input:focus, select:focus {
-    outline: 3px solid rgba(22, 139, 139, 0.15);
-    border-color: var(--teal);
-}
-
-.add-button {
-    width: 100%;
-    margin-top: 22px;
-    padding: 13px;
-    background: var(--teal);
+/* Emergency banner */
+.banner {
+    background: linear-gradient(120deg, #173d61, #285b83);
     color: white;
-    font-size: 14px;
-    font-weight: bold;
+    padding: 25px 28px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.banner h2 {
+    font-size: 21px;
+    margin-bottom: 8px;
+}
+
+.banner p {
+    font-size: 13px;
+    color: #d1dfec;
+}
+
+.banner-icon {
+    font-size: 55px;
+}
+
+/* Statistics */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 17px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 13px;
+    box-shadow: 0 3px 15px rgba(20,43,69,.04);
+    border: 1px solid #e9eef4;
+}
+
+.stat-card .icon {
+    font-size: 24px;
+    margin-bottom: 14px;
+}
+
+.stat-card h2 {
+    font-size: 27px;
+    color: var(--navy);
+}
+
+.stat-card p {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 5px;
+}
+
+/* Sections */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.content-card {
+    background: white;
+    border-radius: 13px;
+    padding: 23px;
+    border: 1px solid #e9eef4;
+    margin-bottom: 23px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.section-heading h2 {
+    font-size: 18px;
+    color: var(--navy);
+}
+
+/* Buttons */
+.btn {
+    padding: 11px 17px;
     border: none;
     border-radius: 8px;
+    background: var(--red);
+    color: white;
     cursor: pointer;
-    transition: 0.2s;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .2s;
 }
 
-.add-button:hover {
-    background: #0e7070;
+.btn:hover {
+    background: #c93434;
+    transform: translateY(-1px);
 }
 
-.message {
-    min-height: 18px;
-    margin: 12px 0 0;
-    color: var(--green);
-    font-size: 12px;
+.btn-blue {
+    background: var(--blue);
 }
 
-/* Item records */
-.records-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 17px;
+.btn-blue:hover {
+    background: var(--navy);
 }
 
-.records-heading h3 {
-    margin: 0;
-    color: var(--navy);
-    font-size: 17px;
+.btn-green {
+    background: var(--green);
 }
 
-.item-count {
-    background: #e6f4f4;
-    color: #117676;
-    padding: 7px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
+.btn-gray {
+    background: #718096;
 }
 
-.item-list {
-    display: grid;
-    gap: 13px;
+.btn-small {
+    padding: 7px 10px;
+    font-size: 11px;
+    margin: 2px;
 }
 
-.item-card {
-    border: 1px solid var(--border);
-    border-radius: 12px;
+/* Announcements */
+.announcement {
     padding: 17px;
+    border: 1px solid #e8edf3;
+    border-radius: 10px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     gap: 15px;
-    transition: 0.2s;
 }
 
-.item-card:hover {
-    border-color: #a9cccc;
-    box-shadow: 0 5px 15px rgba(23, 50, 77, 0.05);
-}
-
-.item-details {
-    min-width: 0;
-}
-
-.item-details h4 {
-    margin: 0 0 9px;
+.announcement h3 {
     font-size: 15px;
+    margin-bottom: 7px;
     color: var(--navy);
-    overflow-wrap: anywhere;
 }
 
-.item-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    align-items: center;
-    color: var(--muted);
+.announcement p {
+    color: var(--gray);
     font-size: 12px;
+    line-height: 1.6;
 }
 
-.category-tag,
-.status-tag {
+.tag {
+    display: inline-block;
     padding: 5px 9px;
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
-}
-
-.category-tag {
-    background: #edf2f7;
-    color: #526477;
-}
-
-.status-available {
-    background: #fff3d7;
-    color: #946400;
-}
-
-.status-claimed {
-    background: #e3f5eb;
-    color: #16734d;
-}
-
-/* Item buttons */
-.actions {
-    display: flex;
-    gap: 7px;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-}
-
-.action-button {
-    border: none;
-    border-radius: 7px;
-    padding: 9px 11px;
-    font-size: 11px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.claim-button {
-    background: #e5f3f3;
-    color: #117676;
-}
-
-.claim-button:hover {
-    background: #cfe9e9;
-}
-
-.delete-button {
     background: #fff0ee;
-    color: var(--red);
+    color: #d94a40;
+    margin-bottom: 8px;
 }
 
-.delete-button:hover {
-    background: #ffdedb;
+.tag.Flood { background: #e5f2ff; color: #2874b9; }
+.tag.Earthquake { background: #fff2df; color: #bc781c; }
+.tag.Medical { background: #e4f7ef; color: #16865c; }
+.tag.General { background: #eee9ff; color: #7354b6; }
+
+/* Hotline */
+.hotline-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
 }
 
-/* Empty state */
-.empty-state {
-    padding: 45px 15px;
-    text-align: center;
-    border: 1px dashed #cbd7e1;
-    border-radius: 12px;
-    color: var(--muted);
+.hotline {
+    border: 1px solid #e8edf3;
+    border-radius: 10px;
+    padding: 20px;
 }
 
-.empty-icon {
-    font-size: 40px;
+.hotline .icon {
+    font-size: 27px;
+    margin-bottom: 12px;
+}
+
+.hotline h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.hotline p {
+    color: var(--gray);
+    font-size: 12px;
     margin-bottom: 10px;
 }
 
-.empty-state h4 {
-    color: var(--navy);
-    margin: 0 0 7px;
+.hotline strong {
+    color: var(--red);
+    font-size: 20px;
 }
 
-.empty-state p {
-    font-size: 13px;
-    margin: 0;
-    line-height: 1.5;
+/* Safety tips */
+.tip {
+    display: flex;
+    gap: 14px;
+    padding: 15px 0;
+    border-bottom: 1px solid #edf0f4;
 }
 
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 25px 10px;
-    color: var(--muted);
+.tip:last-child {
+    border: none;
+}
+
+.tip-icon {
+    font-size: 25px;
+}
+
+.tip h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.tip p {
+    color: var(--gray);
     font-size: 12px;
+    line-height: 1.6;
 }
 
-/* Responsive design */
-@media (max-width: 850px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
+/* Form */
+.form-group {
+    margin-bottom: 16px;
 }
 
-@media (max-width: 600px) {
-    .header {
-        padding: 15px 4%;
-    }
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
 
-    .header-label {
-        display: none;
-    }
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce3eb;
+    border-radius: 8px;
+    outline: none;
+    font-size: 13px;
+}
 
-    .container {
-        width: 92%;
-        margin: 22px auto;
-    }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--blue);
+}
 
-    .welcome {
-        padding: 23px;
-    }
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
 
-    .welcome h2 {
-        font-size: 22px;
-    }
+.form-actions {
+    display: flex;
+    gap: 10px;
+}
 
-    .welcome-icon {
-        font-size: 38px;
-    }
+/* Toast */
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: var(--navy);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 9px;
+    font-size: 13px;
+    display: none;
+    z-index: 99;
+    box-shadow: 0 5px 20px rgba(0,0,0,.2);
+}
 
-    .summary {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
+.empty {
+    text-align: center;
+    color: var(--gray);
+    padding: 30px;
+    font-size: 13px;
+}
 
-    .panel {
-        padding: 17px;
-    }
+/* Responsive */
+@media(max-width: 1000px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .hotline-grid { grid-template-columns: repeat(2, 1fr); }
+}
 
-    .item-card {
-        flex-direction: column;
-        align-items: flex-start;
+@media(max-width: 700px) {
+    .sidebar {
+        width: 65px;
+        padding: 20px 8px;
     }
-
-    .actions {
-        width: 100%;
-    }
+    .logo { justify-content: center; padding: 0; }
+    .logo h2, .nav-title, .nav-link span,
+    .sidebar-footer { display: none; }
+    .logo-icon { width: 43px; flex-shrink: 0; }
+    .nav-link { justify-content: center; padding: 14px 5px; }
+    .main { margin-left: 65px; padding: 20px 13px; }
+    .topbar h1 { font-size: 19px; }
+    .banner { padding: 20px; }
+    .banner h2 { font-size: 17px; }
+    .banner-icon { font-size: 35px; }
+    .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card { padding: 14px; }
+    .hotline-grid { grid-template-columns: 1fr; }
+    .announcement { flex-direction: column; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Header -->
-<header class="header">
-    <div class="header-content">
+<!-- Sidebar navigation -->
+<aside class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">🚨</div>
+        <h2>COMMUNITY<br>EMERGENCY<br><span>INFORMATION SYSTEM</span></h2>
+    </div>
 
-        <div class="logo">
-            <div class="logo-icon">⌕</div>
+    <p class="nav-title">MAIN MENU</p>
 
+    <div class="nav-link active" onclick="showSection('dashboard',this)">
+        <span>🏠</span><span>Dashboard</span>
+    </div>
+
+    <div class="nav-link" onclick="showSection('announcements',this)">
+        <span>📢</span><span>Announcements</span>
+    </div>
+
+    <div class="nav-link" onclick="showSection('hotlines',this)">
+        <span>☎️</span><span>Emergency Hotlines</span>
+    </div>
+
+    <div class="nav-link" onclick="showSection('safety',this)">
+        <span>🛡️</span><span>Safety Information</span>
+    </div>
+
+    <p class="nav-title">MANAGEMENT</p>
+
+    <div class="nav-link" onclick="showSection('manage',this)">
+        <span>📝</span><span>Manage Announcements</span>
+    </div>
+
+    <div class="sidebar-footer">
+        Community Safety and Preparedness<br>
+        © 2026 Community Emergency System
+    </div>
+</aside>
+
+<!-- Main content -->
+<main class="main">
+
+    <header class="topbar">
+        <div>
+            <h1 id="pageTitle">Dashboard</h1>
+            <p>Community Emergency Information System</p>
+        </div>
+        <div class="status">● System Online</div>
+    </header>
+
+    <!-- Dashboard -->
+    <section class="section active" id="dashboard">
+
+        <div class="banner">
             <div>
-                <h1>CampusFind</h1>
-                <p>FOUND ITEMS MANAGEMENT</p>
+                <h2>Community Safety Starts With Us!</h2>
+                <p>Stay informed. Stay prepared. Stay safe.</p>
+            </div>
+            <div class="banner-icon">🚨</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="icon">📢</div>
+                <h2 id="totalAnnouncements">0</h2>
+                <p>Total Announcements</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">🔥</div>
+                <h2 id="fireCount">0</h2>
+                <p>Fire Alerts</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">🌊</div>
+                <h2 id="floodCount">0</h2>
+                <p>Flood Alerts</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon">📰</div>
+                <h2 id="generalCount">0</h2>
+                <p>General Updates</p>
             </div>
         </div>
 
-        <div class="header-label">
-            CAMPUS LOST & FOUND PORTAL
+        <div class="content-card">
+            <div class="section-heading">
+                <h2>📢 Latest Emergency Announcements</h2>
+                <button class="btn btn-blue" onclick="showSection('announcements')">View All</button>
+            </div>
+            <div id="dashboardAnnouncements"></div>
         </div>
 
-    </div>
-</header>
-
-<main class="container">
-
-    <!-- Welcome section -->
-    <section class="welcome">
-        <div>
-            <h2>Found Items Dashboard</h2>
-            <p>
-                Manage found belongings around the campus.
-                Add new records and update their claim status.
+        <div class="content-card">
+            <div class="section-heading">
+                <h2>⚠️ Important Reminder</h2>
+            </div>
+            <p style="font-size:13px;color:#718096;line-height:1.8">
+                Always monitor official community announcements, prepare an emergency kit,
+                keep important contact numbers accessible, and follow instructions from
+                authorized emergency personnel during disasters.
             </p>
         </div>
-
-        <div class="welcome-icon">🎒</div>
     </section>
 
-    <!-- Summary cards -->
-    <section class="summary">
-
-        <div class="summary-card">
-            <div class="summary-icon">📦</div>
-            <div>
-                <h3 id="totalCount">0</h3>
-                <p>Total Found Items</p>
+    <!-- Announcements -->
+    <section class="section" id="announcements">
+        <div class="content-card">
+            <div class="section-heading">
+                <h2>All Emergency Announcements</h2>
             </div>
+            <div id="allAnnouncements"></div>
         </div>
-
-        <div class="summary-card">
-            <div class="summary-icon">🟡</div>
-            <div>
-                <h3 id="availableCount">0</h3>
-                <p>Available Items</p>
-            </div>
-        </div>
-
-        <div class="summary-card">
-            <div class="summary-icon">✅</div>
-            <div>
-                <h3 id="claimedCount">0</h3>
-                <p>Claimed Items</p>
-            </div>
-        </div>
-
     </section>
 
-    <!-- Form and item records -->
-    <div class="content-grid">
-
-        <!-- Add item form -->
-        <section class="panel">
-
-            <div class="panel-heading">
-                <h3>+ Add Found Item</h3>
-                <p>Enter the information of the found item.</p>
+    <!-- Hotlines -->
+    <section class="section" id="hotlines">
+        <div class="content-card">
+            <div class="section-heading">
+                <h2>☎️ Emergency Contact Numbers</h2>
             </div>
 
-            <form id="itemForm">
+            <div class="hotline-grid">
+                <div class="hotline">
+                    <div class="icon">🚑</div>
+                    <h3>Emergency Hotline</h3>
+                    <p>Philippine Emergency Number</p>
+                    <strong>911</strong>
+                </div>
 
-                <label for="itemName">Item Name</label>
-                <input
-                    type="text"
-                    id="itemName"
-                    placeholder="e.g. Black Wallet"
-                    maxlength="80"
-                    required
-                >
+                <div class="hotline">
+                    <div class="icon">🚒</div>
+                    <h3>Bureau of Fire Protection</h3>
+                    <p>Fire and rescue emergencies</p>
+                    <strong>116</strong>
+                </div>
 
-                <label for="category">Category</label>
-                <select id="category" required>
-                    <option value="">Select category</option>
-                    <option value="Accessories">Accessories</option>
-                    <option value="Books & Notes">Books & Notes</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="ID & Cards">ID & Cards</option>
-                    <option value="Personal Items">Personal Items</option>
-                    <option value="Other">Other</option>
-                </select>
+                <div class="hotline">
+                    <div class="icon">🚓</div>
+                    <h3>Philippine National Police</h3>
+                    <p>Police assistance</p>
+                    <strong>117</strong>
+                </div>
 
-                <label for="dateFound">Date Found</label>
-                <input
-                    type="date"
-                    id="dateFound"
-                    required
-                >
+                <div class="hotline">
+                    <div class="icon">🏥</div>
+                    <h3>Local Health Center</h3>
+                    <p>Replace with your local health center number</p>
+                    <strong>Contact LGU</strong>
+                </div>
 
-                <button type="submit" class="add-button">
-                    + Add Found Item
-                </button>
+                <div class="hotline">
+                    <div class="icon">🌪️</div>
+                    <h3>Disaster Risk Reduction</h3>
+                    <p>Replace with your local DRRMO number</p>
+                    <strong>Contact LGU</strong>
+                </div>
 
-                <p class="message" id="message" role="status" aria-live="polite"></p>
+                <div class="hotline">
+                    <div class="icon">🏛️</div>
+                    <h3>Barangay Office</h3>
+                    <p>Community assistance</p>
+                    <strong>Contact Barangay</strong>
+                </div>
+            </div>
+        </div>
+        <p style="font-size:11px;color:#718096;margin-top:10px">
+            Note: Verify local contact numbers with your LGU. Hotline availability may vary.
+        </p>
+    </section>
 
+    <!-- Safety information -->
+    <section class="section" id="safety">
+        <div class="content-card">
+            <div class="section-heading">
+                <h2>🛡️ Emergency Preparedness and Safety Tips</h2>
+            </div>
+
+            <div class="tip">
+                <div class="tip-icon">🔥</div>
+                <div>
+                    <h3>Fire Safety</h3>
+                    <p>Keep emergency exits clear, avoid overloaded electrical outlets,
+                    and know your evacuation routes.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <div class="tip-icon">🌊</div>
+                <div>
+                    <h3>Flood Preparedness</h3>
+                    <p>Monitor weather updates, prepare emergency supplies,
+                    and move to higher ground when authorities advise evacuation.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <div class="tip-icon">🌎</div>
+                <div>
+                    <h3>Earthquake Safety</h3>
+                    <p>Remember Drop, Cover, and Hold On. Stay away from windows
+                    and follow official safety instructions.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <div class="tip-icon">🚑</div>
+                <div>
+                    <h3>Medical Emergency</h3>
+                    <p>Contact emergency responders when needed and provide
+                    accurate information about the location and situation.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <div class="tip-icon">🎒</div>
+                <div>
+                    <h3>Emergency Go Bag</h3>
+                    <p>Prepare drinking water, food, flashlight, batteries,
+                    first-aid supplies, medications, and important documents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manage announcements -->
+    <section class="section" id="manage">
+
+        <div class="content-card">
+            <div class="section-heading">
+                <h2>📝 Manage Emergency Announcements</h2>
+            </div>
+
+            <form id="announcementForm">
+                <input type="hidden" id="editId">
+
+                <div class="form-group">
+                    <label>Announcement Title</label>
+                    <input type="text" id="title" placeholder="Enter announcement title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Emergency Category</label>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Fire">🔥 Fire</option>
+                        <option value="Flood">🌊 Flood</option>
+                        <option value="Earthquake">🌎 Earthquake</option>
+                        <option value="Medical">🚑 Medical Emergency</option>
+                        <option value="General">📢 General Announcement</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Date of Announcement</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Announcement Details</label>
+                    <textarea id="description" placeholder="Enter important emergency information..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn" id="submitBtn">Publish Announcement</button>
+                    <button type="button" class="btn btn-gray" onclick="resetForm()">Clear</button>
+                </div>
             </form>
+        </div>
 
-        </section>
-
-        <!-- Found items list -->
-        <section class="panel">
-
-            <div class="records-heading">
-                <h3>Found Item Records</h3>
-
-                <span class="item-count" id="itemCount">
-                    0 Items
-                </span>
+        <div class="content-card">
+            <div class="section-heading">
+                <h2>Published Announcements</h2>
             </div>
-
-            <div class="item-list" id="itemList"></div>
-
-        </section>
-
-    </div>
+            <div id="manageAnnouncements"></div>
+        </div>
+    </section>
 
 </main>
 
-<footer class="footer">
-    CampusFind © 2026 | Found Items Management System
-</footer>
+<div class="toast" id="toast"></div>
 
 <script>
-
-// Local storage key
-const STORAGE_KEY = "campusFindFoundItems";
-
-// Get HTML elements
-const form = document.getElementById("itemForm");
-const itemList = document.getElementById("itemList");
-const message = document.getElementById("message");
-
-// Load saved items from localStorage
-function loadItems() {
-    try {
-        const savedItems = JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
-        );
-
-        return Array.isArray(savedItems) ? savedItems : [];
-
-    } catch (error) {
-        return [];
+// Get saved announcements or use sample data
+const sampleAnnouncements = [
+    {
+        id: 1,
+        title: "Community Emergency Preparedness Reminder",
+        category: "General",
+        date: "2026-11-24",
+        description: "Residents are encouraged to prepare emergency kits and monitor official community announcements."
+    },
+    {
+        id: 2,
+        title: "Flood Preparedness Advisory",
+        category: "Flood",
+        date: "2026-11-23",
+        description: "Residents in low-lying areas should remain alert and follow official evacuation instructions."
+    },
+    {
+        id: 3,
+        title: "Fire Safety Awareness",
+        category: "Fire",
+        date: "2026-11-22",
+        description: "Check electrical connections and keep emergency exits free from obstructions."
     }
+];
+
+let announcements = JSON.parse(localStorage.getItem("communityAnnouncements"));
+
+if (!announcements) {
+    announcements = sampleAnnouncements;
+    saveData();
 }
 
-// Current item records
-let items = loadItems();
-
-// Save item records
-function saveItems() {
-    try {
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(items)
-        );
-
-        return true;
-
-    } catch (error) {
-        message.textContent =
-            "Unable to save. Check your browser storage.";
-
-        return false;
-    }
+// Save announcements to localStorage
+function saveData() {
+    localStorage.setItem("communityAnnouncements", JSON.stringify(announcements));
 }
 
-// Create text safely
-function createElement(tag, className, text) {
-    const element = document.createElement(tag);
+// Display toast notification
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.display = "block";
 
-    if (className) {
-        element.className = className;
-    }
-
-    element.textContent = text;
-
-    return element;
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 2500);
 }
 
-// Display item records and update dashboard counts
-function displayItems() {
-
-    itemList.replaceChildren();
-
-    const total = items.length;
-
-    const available = items.filter(
-        item => !item.claimed
-    ).length;
-
-    const claimed = items.filter(
-        item => item.claimed
-    ).length;
-
-    document.getElementById("totalCount").textContent = total;
-    document.getElementById("availableCount").textContent = available;
-    document.getElementById("claimedCount").textContent = claimed;
-
-    document.getElementById("itemCount").textContent =
-        `${total} ${total === 1 ? "Item" : "Items"}`;
-
-    // Show empty state when there are no records
-    if (total === 0) {
-
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-
-        empty.appendChild(
-            createElement("div", "empty-icon", "📭")
-        );
-
-        empty.appendChild(
-            createElement("h4", "", "No Found Items Yet")
-        );
-
-        empty.appendChild(
-            createElement(
-                "p",
-                "",
-                "There are currently no item records. Add a found item using the form."
-            )
-        );
-
-        itemList.appendChild(empty);
-
-        return;
-    }
-
-    // Display each item
-    items.forEach(item => {
-
-        const card = document.createElement("article");
-        card.className = "item-card";
-
-        const details = document.createElement("div");
-        details.className = "item-details";
-
-        details.appendChild(
-            createElement("h4", "", item.name)
-        );
-
-        const meta = document.createElement("div");
-        meta.className = "item-meta";
-
-        meta.appendChild(
-            createElement("span", "category-tag", item.category)
-        );
-
-        meta.appendChild(
-            createElement("span", "", "Date Found: " + item.dateFound)
-        );
-
-        meta.appendChild(
-            createElement(
-                "span",
-                item.claimed
-                    ? "status-tag status-claimed"
-                    : "status-tag status-available",
-                item.claimed ? "Claimed" : "Available"
-            )
-        );
-
-        details.appendChild(meta);
-
-        // Claim status button
-        const actions = document.createElement("div");
-        actions.className = "actions";
-
-        const claimButton = createElement(
-            "button",
-            "action-button claim-button",
-            item.claimed ? "Mark Available" : "Mark Claimed"
-        );
-
-        claimButton.type = "button";
-        claimButton.dataset.action = "toggle";
-        claimButton.dataset.id = item.id;
-
-        claimButton.setAttribute(
-            "aria-label",
-            `${item.claimed ? "Mark available" : "Mark claimed"}: ${item.name}`
-        );
-
-        // Delete button
-        const deleteButton = createElement(
-            "button",
-            "action-button delete-button",
-            "Delete"
-        );
-
-        deleteButton.type = "button";
-        deleteButton.dataset.action = "delete";
-        deleteButton.dataset.id = item.id;
-
-        deleteButton.setAttribute(
-            "aria-label",
-            `Delete ${item.name}`
-        );
-
-        actions.append(claimButton, deleteButton);
-
-        card.append(details, actions);
-
-        itemList.appendChild(card);
-
+// Navigate between sections
+function showSection(sectionId, element) {
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
     });
-}
 
-// Add a new found item
-form.addEventListener("submit", function(event) {
+    document.getElementById(sectionId).classList.add("active");
 
-    event.preventDefault();
+    document.querySelectorAll(".nav-link").forEach(link => {
+        link.classList.remove("active");
+    });
 
-    const name = document.getElementById("itemName").value.trim();
-    const category = document.getElementById("category").value;
-    const dateFound = document.getElementById("dateFound").value;
+    if (element) element.classList.add("active");
 
-    // Validate required fields
-    if (!name || !category || !dateFound) {
-
-        message.textContent = "Please complete all fields.";
-
-        return;
-    }
-
-    const newItem = {
-        id: Date.now().toString() +
-            Math.random().toString(16).slice(2),
-
-        name: name,
-        category: category,
-        dateFound: dateFound,
-        claimed: false
+    const titles = {
+        dashboard: "Dashboard",
+        announcements: "Emergency Announcements",
+        hotlines: "Emergency Hotlines",
+        safety: "Safety Information",
+        manage: "Manage Announcements"
     };
 
-    items.unshift(newItem);
+    document.getElementById("pageTitle").textContent = titles[sectionId];
 
-    if (saveItems()) {
+    renderAll();
+}
 
-        form.reset();
+// Safely display text entered by staff
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[char]);
+}
 
-        message.textContent =
-            "Found item added successfully!";
+// Create announcement HTML
+function announcementHTML(item, showActions = false) {
+    return `
+        <div class="announcement">
+            <div>
+                <span class="tag ${escapeHTML(item.category)}">${escapeHTML(item.category)}</span>
+                <h3>${escapeHTML(item.title)}</h3>
+                <p>${escapeHTML(item.description)}</p>
+                <p style="margin-top:8px">📅 ${escapeHTML(item.date)}</p>
+            </div>
 
-        displayItems();
+            ${showActions ? `
+                <div style="min-width:125px">
+                    <button class="btn btn-blue btn-small" onclick="editAnnouncement(${item.id})">Edit</button>
+                    <button class="btn btn-small" onclick="deleteAnnouncement(${item.id})">Delete</button>
+                </div>
+            ` : ""}
+        </div>
+    `;
+}
 
-    } else {
+// Update all page displays
+function renderAll() {
+    document.getElementById("totalAnnouncements").textContent = announcements.length;
+    document.getElementById("fireCount").textContent =
+        announcements.filter(a => a.category === "Fire").length;
+    document.getElementById("floodCount").textContent =
+        announcements.filter(a => a.category === "Flood").length;
+    document.getElementById("generalCount").textContent =
+        announcements.filter(a => a.category === "General").length;
 
-        items.shift();
-    }
-
-});
-
-// Handle claim status and delete actions
-itemList.addEventListener("click", function(event) {
-
-    const button = event.target.closest("button[data-action]");
-
-    if (!button) return;
-
-    const item = items.find(
-        record => record.id === button.dataset.id
+    const sorted = [...announcements].sort((a, b) =>
+        b.date.localeCompare(a.date)
     );
 
-    if (!item) return;
+    document.getElementById("dashboardAnnouncements").innerHTML =
+        sorted.length
+        ? sorted.slice(0, 3).map(a => announcementHTML(a)).join("")
+        : `<div class="empty">No announcements available.</div>`;
 
-    // Mark item as claimed or available
-    if (button.dataset.action === "toggle") {
+    document.getElementById("allAnnouncements").innerHTML =
+        sorted.length
+        ? sorted.map(a => announcementHTML(a)).join("")
+        : `<div class="empty">No announcements available.</div>`;
 
-        item.claimed = !item.claimed;
+    document.getElementById("manageAnnouncements").innerHTML =
+        sorted.length
+        ? sorted.map(a => announcementHTML(a, true)).join("")
+        : `<div class="empty">No announcements published yet.</div>`;
+}
 
-        if (saveItems()) {
+// Add or update announcement
+document.getElementById("announcementForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-            message.textContent = item.claimed
-                ? "Item marked as claimed."
-                : "Item marked as available.";
+    const editId = document.getElementById("editId").value;
 
-            displayItems();
+    const item = {
+        id: editId ? Number(editId) : Date.now(),
+        title: document.getElementById("title").value.trim(),
+        category: document.getElementById("category").value,
+        date: document.getElementById("date").value,
+        description: document.getElementById("description").value.trim()
+    };
 
-        } else {
-
-            item.claimed = !item.claimed;
-        }
+    if (!item.title || !item.description) {
+        showToast("Please complete all fields.");
+        return;
     }
 
-    // Delete item after confirmation
-    if (button.dataset.action === "delete") {
-
-        const confirmed = confirm(
-            `Are you sure you want to delete "${item.name}"?`
-        );
-
-        if (!confirmed) return;
-
-        const previousItems = items;
-
-        items = items.filter(
-            record => record.id !== item.id
-        );
-
-        if (saveItems()) {
-
-            message.textContent =
-                "Item deleted successfully.";
-
-            displayItems();
-
-        } else {
-
-            items = previousItems;
-        }
+    if (editId) {
+        const index = announcements.findIndex(a => a.id === Number(editId));
+        if (index !== -1) announcements[index] = item;
+        showToast("Announcement updated successfully!");
+    } else {
+        announcements.push(item);
+        showToast("Announcement published successfully!");
     }
 
+    saveData();
+    resetForm();
+    renderAll();
 });
 
-// Display saved records when page opens
-displayItems();
+// Edit announcement
+function editAnnouncement(id) {
+    const item = announcements.find(a => a.id === id);
+    if (!item) return;
 
+    document.getElementById("editId").value = item.id;
+    document.getElementById("title").value = item.title;
+    document.getElementById("category").value = item.category;
+    document.getElementById("date").value = item.date;
+    document.getElementById("description").value = item.description;
+
+    document.getElementById("submitBtn").textContent = "Update Announcement";
+
+    showSection("manage");
+    document.getElementById("title").focus();
+}
+
+// Delete announcement
+function deleteAnnouncement(id) {
+    if (!confirm("Are you sure you want to delete this announcement?")) return;
+
+    announcements = announcements.filter(a => a.id !== id);
+
+    saveData();
+    renderAll();
+    showToast("Announcement deleted successfully!");
+}
+
+// Reset announcement form
+function resetForm() {
+    document.getElementById("announcementForm").reset();
+    document.getElementById("editId").value = "";
+    document.getElementById("submitBtn").textContent = "Publish Announcement";
+    document.getElementById("date").value = new Date().toISOString().split("T")[0];
+}
+
+// Initial page setup
+document.getElementById("date").value = new Date().toISOString().split("T")[0];
+renderAll();
 </script>
 
 </body>
