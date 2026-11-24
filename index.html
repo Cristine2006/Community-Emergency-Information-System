@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Emergency Information System</title>
+  <style>
+    :root {
+      --navy: #17324d;
+      --blue: #2563a6;
+      --blue-light: #eaf3fc;
+      --teal: #2c8582;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --surface: #ffffff;
+      --bg: #f4f7fb;
+      --danger: #b42318;
+      --danger-bg: #fff0ee;
+      --warning: #9a6700;
+      --warning-bg: #fff8e6;
+      --success: #18794e;
+      --success-bg: #eaf8f0;
+      --shadow: 0 10px 30px rgba(23, 50, 77, .07);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, "Segoe UI", Arial, sans-serif; background: var(--bg); color: var(--ink); }
+    button, input, textarea, select { font: inherit; }
+    .topbar { background: var(--navy); color: white; padding: 17px 5.5%; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: rgba(255,255,255,.13); font-size: 22px; }
+    .brand h1 { font-size: 17px; margin: 0; letter-spacing: .2px; }
+    .brand p { margin: 3px 0 0; font-size: 11px; color: #cbd8e6; letter-spacing: 1.3px; text-transform: uppercase; }
+    .top-note { font-size: 12px; color: #d7e4f1; text-align: right; }
+    .container { width: min(1180px, 91%); margin: 28px auto 48px; }
+    .hero { background: linear-gradient(115deg, #1b456b, #267c83); color: white; border-radius: 20px; padding: 28px 30px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; opacity: .8; font-weight: 700; }
+    .hero h2 { font-size: clamp(24px, 4vw, 34px); margin: 8px 0; }
+    .hero p { color: #e1edf4; margin: 0; max-width: 640px; line-height: 1.6; font-size: 14px; }
+    .hero-mark { font-size: 58px; opacity: .95; padding: 0 18px; }
+    .notice { margin: 18px 0 22px; border: 1px solid #f0d28a; background: var(--warning-bg); color: #704d00; border-radius: 12px; padding: 12px 15px; font-size: 12px; line-height: 1.55; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin: 28px 0 13px; }
+    .section-head h3 { margin: 0; font-size: 18px; color: var(--navy); }
+    .section-head p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .stat, .panel, .info-card { background: var(--surface); border: 1px solid var(--line); border-radius: 15px; box-shadow: var(--shadow); }
+    .stat { padding: 17px 18px; display: flex; align-items: center; gap: 13px; }
+    .stat-icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: var(--blue-light); }
+    .stat strong { display: block; font-size: 23px; color: var(--navy); }
+    .stat span:last-child { font-size: 12px; color: var(--muted); }
+    .grid-two { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; }
+    .panel { padding: 19px; }
+    .panel h3 { margin: 0 0 4px; color: var(--navy); font-size: 16px; }
+    .sub { color: var(--muted); font-size: 12px; margin: 0 0 16px; }
+    .announcement { border: 1px solid var(--line); border-left: 4px solid var(--teal); padding: 13px 14px; border-radius: 10px; margin-top: 10px; }
+    .announcement.high { border-left-color: var(--danger); }
+    .announcement.medium { border-left-color: #d69e22; }
+    .announcement-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .announcement h4 { margin: 0; font-size: 14px; }
+    .announcement p { margin: 8px 0; font-size: 12px; line-height: 1.55; color: #475569; white-space: pre-wrap; }
+    .meta { font-size: 10px; color: var(--muted); }
+    .pill { border-radius: 30px; padding: 4px 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+    .pill.high { color: var(--danger); background: var(--danger-bg); }
+    .pill.medium { color: var(--warning); background: var(--warning-bg); }
+    .pill.info { color: var(--success); background: var(--success-bg); }
+    .actions { display: flex; gap: 7px; margin-top: 10px; }
+    .btn { border: 0; border-radius: 8px; padding: 9px 13px; font-size: 12px; font-weight: 700; cursor: pointer; transition: .15s; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--blue); color: white; }
+    .btn-light { background: var(--blue-light); color: var(--blue); }
+    .btn-danger { background: var(--danger-bg); color: var(--danger); }
+    .btn-small { padding: 6px 9px; font-size: 11px; }
+    .contact-list, .center-list { display: grid; gap: 10px; }
+    .contact, .center { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+    .contact:last-child, .center:last-child { border-bottom: 0; }
+    .contact strong, .center strong { display: block; font-size: 12px; }
+    .contact span, .center span { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .phone { color: var(--blue); font-weight: 700; font-size: 12px; text-decoration: none; white-space: nowrap; }
+    .cards-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .info-card { padding: 17px; }
+    .info-card .emoji { font-size: 23px; }
+    .info-card h4 { color: var(--navy); margin: 10px 0 6px; font-size: 14px; }
+    .info-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .form-row { display: grid; grid-template-columns: 1fr 160px; gap: 10px; }
+    label { display: block; color: #475569; font-size: 11px; font-weight: 700; margin: 12px 0 6px; }
+    input, textarea, select { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 11px; background: white; color: var(--ink); outline: none; font-size: 12px; }
+    input:focus, textarea:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,166,.1); }
+    textarea { min-height: 78px; resize: vertical; }
+    .form-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .empty { text-align: center; color: var(--muted); padding: 25px 10px; font-size: 12px; border: 1px dashed #cbd5e1; border-radius: 10px; margin-top: 10px; }
+    .footer { text-align: center; color: #8492a6; font-size: 11px; padding: 25px 10px 5px; }
+    .toast { position: fixed; right: 20px; bottom: 20px; background: #17324d; color: white; padding: 12px 16px; border-radius: 10px; font-size: 12px; box-shadow: var(--shadow); display: none; z-index: 5; }
+    @media (max-width: 780px) {
+      .grid-two { grid-template-columns: 1fr; }
+      .cards-three { grid-template-columns: 1fr; }
+      .hero-mark { display: none; }
+    }
+    @media (max-width: 560px) {
+      .topbar { padding: 14px 4.5%; }
+      .top-note { display: none; }
+      .container { width: 92%; margin-top: 18px; }
+      .hero { padding: 22px 19px; }
+      .stats { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .section-head { align-items: start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🛟</div>
+      <div>
+        <h1>Community Emergency Information System</h1>
+        <p>Prepared • Informed • Resilient</p>
+      </div>
+    </div>
+    <div class="top-note">COMMUNITY INFORMATION PORTAL<br><span id="today"></span></div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Community safety dashboard</div>
+        <h2>Stay informed. Stay prepared.</h2>
+        <p>Find community safety updates, emergency contact information, evacuation center details, and simple disaster preparedness reminders in one place.</p>
+      </div>
+      <div class="hero-mark">🚨</div>
+    </section>
+
+    <div class="notice"><strong>Demo and safety notice:</strong> This project uses sample information for school demonstration only. It is not connected to emergency services. Verify real alerts, phone numbers, and evacuation locations with your barangay or official government sources. In an actual emergency, contact your local emergency services.</div>
+
+    <section class="stats" aria-label="Dashboard summary">
+      <div class="stat"><div class="stat-icon">📢</div><div><strong id="announcementCount">0</strong><span>Community updates</span></div></div>
+      <div class="stat"><div class="stat-icon">☎️</div><div><strong>3</strong><span>Sample emergency contacts</span></div></div>
+      <div class="stat"><div class="stat-icon">🏫</div><div><strong>2</strong><span>Sample evacuation centers</span></div></div>
+    </section>
+
+    <section class="section-head">
+      <div><h3>Emergency Announcements</h3><p>Sample notices for the community dashboard</p></div>
+    </section>
+
+    <div class="grid-two">
+      <section class="panel">
+        <h3>Latest community updates</h3>
+        <p class="sub">Announcements are stored in this browser using localStorage.</p>
+        <div id="announcementList"></div>
+      </section>
+
+      <section class="panel" id="announcementFormPanel">
+        <h3 id="formTitle">Post an announcement</h3>
+        <p class="sub">For demonstration, use fictional and verified-safe sample content only.</p>
+        <form id="announcementForm">
+          <label for="title">Announcement title</label>
+          <input id="title" maxlength="80" required placeholder="Example: Community preparedness reminder">
+          <div class="form-row">
+            <div>
+              <label for="level">Priority level</label>
+              <select id="level">
+                <option value="info">Information</option>
+                <option value="medium">Advisory</option>
+                <option value="high">Urgent demo notice</option>
+              </select>
+            </div>
+            <div>
+              <label for="postedBy">Posted by</label>
+              <input id="postedBy" maxlength="35" required placeholder="Sample staff">
+            </div>
+          </div>
+          <label for="message">Announcement details</label>
+          <textarea id="message" maxlength="500" required placeholder="Write a short community information update..."></textarea>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit" id="saveButton">Publish update</button>
+            <button class="btn btn-light" type="button" id="cancelEdit" hidden>Cancel edit</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="section-head">
+      <div><h3>Emergency Contacts</h3><p>Fictional placeholders — replace only with verified official contacts.</p></div>
+    </section>
+    <section class="panel contact-list">
+      <div class="contact"><div><strong>Community Emergency Desk (Sample)</strong><span>Local coordination point</span></div><span class="phone">000-000-0000</span></div>
+      <div class="contact"><div><strong>Health Assistance Desk (Sample)</strong><span>Health-related inquiries</span></div><span class="phone">000-000-0001</span></div>
+      <div class="contact"><div><strong>Fire and Rescue Desk (Sample)</strong><span>Fire safety information</span></div><span class="phone">000-000-0002</span></div>
+    </section>
+
+    <section class="section-head">
+      <div><h3>Evacuation Center Information</h3><p>Sample locations only — confirm safe and open sites with local authorities.</p></div>
+    </section>
+    <section class="panel center-list">
+      <div class="center"><div><strong>Community Covered Court (Sample)</strong><span>Sample capacity: 100 people · Check-in at information desk</span></div><span class="pill info">Sample site</span></div>
+      <div class="center"><div><strong>Central School Gymnasium (Sample)</strong><span>Sample capacity: 150 people · Follow official staff instructions</span></div><span class="pill info">Sample site</span></div>
+    </section>
+
+    <section class="section-head">
+      <div><h3>Preparedness Tips</h3><p>Basic reminders to help households prepare ahead of time.</p></div>
+    </section>
+    <section class="cards-three">
+      <article class="info-card"><div class="emoji">🎒</div><h4>Prepare a go-bag</h4><p>Keep drinking water, ready-to-eat food, a flashlight, batteries, basic first-aid supplies, and copies of important documents.</p></article>
+      <article class="info-card"><div class="emoji">📻</div><h4>Follow official updates</h4><p>Listen to trusted local authorities and official weather or disaster agencies. Avoid sharing unverified reports.</p></article>
+      <article class="info-card"><div class="emoji">👨‍👩‍👧</div><h4>Make a family plan</h4><p>Agree on a meeting point, emergency contacts, and how household members will communicate if separated.</p></article>
+    </section>
+
+    <footer class="footer">Community Emergency Information System · Student demonstration project · Sample data only</footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "communityEmergencyAnnouncements";
+    const defaultAnnouncements = [
+      {
+        id: 1,
+        title: "Community preparedness reminder",
+        level: "info",
+        postedBy: "Sample Community Staff",
+        message: "Review your household emergency plan and keep essential supplies in an accessible place. This is a fictional sample announcement.",
+        date: new Date().toISOString()
+      },
+      {
+        id: 2,
+        title: "Weather awareness advisory",
+        level: "medium",
+        postedBy: "Sample Information Desk",
+        message: "Please monitor official weather bulletins and follow guidance from authorized local agencies. This is a fictional sample advisory.",
+        date: new Date(Date.now() - 86400000).toISOString()
+      }
+    ];
+
+    let announcements = loadAnnouncements();
+    let editingId = null;
+
+    function loadAnnouncements() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : defaultAnnouncements;
+      } catch (error) {
+        return defaultAnnouncements;
+      }
+    }
+
+    function saveAnnouncements() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(announcements));
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      })[char]);
+    }
+
+    function formatDate(value) {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? "Date unavailable" :
+        date.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+    }
+
+    function renderAnnouncements() {
+      const list = document.getElementById("announcementList");
+      document.getElementById("announcementCount").textContent = announcements.length;
+      if (!announcements.length) {
+        list.innerHTML = '<div class="empty">No announcements yet. Add a community update using the form.</div>';
+        return;
+      }
+      const sorted = [...announcements].sort((a, b) => new Date(b.date) - new Date(a.date));
+      list.innerHTML = sorted.map(item => `
+        <article class="announcement ${escapeHTML(item.level)}">
+          <div class="announcement-top">
+            <h4>${escapeHTML(item.title)}</h4>
+            <span class="pill ${escapeHTML(item.level)}">${item.level === "high" ? "Urgent demo" : item.level === "medium" ? "Advisory" : "Information"}</span>
+          </div>
+          <p>${escapeHTML(item.message)}</p>
+          <div class="meta">Posted by ${escapeHTML(item.postedBy)} · ${formatDate(item.date)}</div>
+          <div class="actions">
+            <button class="btn btn-light btn-small" type="button" onclick="editAnnouncement(${Number(item.id)})">Edit</button>
+            <button class="btn btn-danger btn-small" type="button" onclick="deleteAnnouncement(${Number(item.id)})">Delete</button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.style.display = "none", 2600);
+    }
+
+    document.getElementById("announcementForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const title = document.getElementById("title").value.trim();
+      const level = document.getElementById("level").value;
+      const postedBy = document.getElementById("postedBy").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!title || !postedBy || !message) {
+        showToast("Please complete all required fields.");
+        return;
+      }
+
+      if (editingId !== null) {
+        announcements = announcements.map(item => item.id === editingId
+          ? { ...item, title, level, postedBy, message, date: new Date().toISOString() }
+          : item);
+        showToast("Announcement updated.");
+      } else {
+        announcements.push({ id: Date.now(), title, level, postedBy, message, date: new Date().toISOString() });
+        showToast("Announcement published.");
+      }
+      saveAnnouncements();
+      renderAnnouncements();
+      resetForm();
+    });
+
+    function editAnnouncement(id) {
+      const item = announcements.find(entry => entry.id === id);
+      if (!item) return;
+      editingId = id;
+      document.getElementById("title").value = item.title;
+      document.getElementById("level").value = item.level;
+      document.getElementById("postedBy").value = item.postedBy;
+      document.getElementById("message").value = item.message;
+      document.getElementById("formTitle").textContent = "Edit announcement";
+      document.getElementById("saveButton").textContent = "Save changes";
+      document.getElementById("cancelEdit").hidden = false;
+      document.getElementById("announcementFormPanel").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function deleteAnnouncement(id) {
+      if (!confirm("Delete this sample announcement?")) return;
+      announcements = announcements.filter(item => item.id !== id);
+      saveAnnouncements();
+      renderAnnouncements();
+      if (editingId === id) resetForm();
+      showToast("Announcement deleted.");
+    }
+
+    function resetForm() {
+      editingId = null;
+      document.getElementById("announcementForm").reset();
+      document.getElementById("formTitle").textContent = "Post an announcement";
+      document.getElementById("saveButton").textContent = "Publish update";
+      document.getElementById("cancelEdit").hidden = true;
+    }
+
+    document.getElementById("cancelEdit").addEventListener("click", resetForm);
+    document.getElementById("today").textContent = new Date().toLocaleDateString([], { dateStyle: "full" });
+    saveAnnouncements();
+    renderAnnouncements();
+  </script>
+</body>
+</html>
